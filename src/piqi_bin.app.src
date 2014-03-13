@@ -1,0 +1,12 @@
+{application, piqi_bin,
+[
+ {description, "Dummy repo for holding the piqi binary"},
+ {vsn, git},
+ {registered, []},
+ {modules, []},
+ {applications, [
+                    kernel,
+                    stdlib
+                ]},
+ {env, []}
+]}.
