@@ -17,11 +17,12 @@
 
 
 verify_piqi_version(Config) ->
-    ReqPiqiVsn = rebar_config:get(Config, req_piqi_vsn, undefined),
-    case ReqPiqiVsn of
-        undefined ->
+    AllReqPiqiVsns = rebar_config:get_all(Config, req_piqi_vsn),
+    case AllReqPiqiVsns of
+        [] ->
             ok;
-        _ ->
+        List ->
+            ReqPiqiVsn = lists:last(AllReqPiqiVsns),
             VsnOld = os:cmd("piqi version"), %% returned by piqi =< 0.6.5
             VsnNew = os:cmd("piqi --version"), %% returned by piqi > 0.6.5
             StrVsn = case VsnOld of
