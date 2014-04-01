@@ -56,7 +56,7 @@ cmp(X, Y) ->
 
 compatible_vsn(Cmp, [X], [Y]) when is_integer(X), is_integer(Y) ->
     cmp(X, Y) == Cmp;
-compatible_vsn(Cmp, [X|Xs], [Y|Ys]) when is_integer(X), is_integer(Y) ->
+compatible_vsn(Cmp, [X|Xs], [Y|Ys]) when not (is_integer(X) xor is_integer(Y)) ->
     case cmp(X, Y) of
         eq ->
             compatible_vsn(Cmp, Xs, Ys);
@@ -66,9 +66,9 @@ compatible_vsn(Cmp, [X|Xs], [Y|Ys]) when is_integer(X), is_integer(Y) ->
             false
     end;
 compatible_vsn(Cmp, [X|Xs], [Y|Ys]) when is_integer(X) ->
-    true;
-compatible_vsn(Cmp, [X|Xs], [Y|Ys]) ->
-    cmp(X, Y) == Cmp;
+    Cmp == gt;
+compatible_vsn(Cmp, [X|Xs], [Y|Ys]) when is_integer(Y) ->
+    Cmp == lt;
 compatible_vsn(Cmp, [], [_|_]) ->
     Cmp == lt;
 compatible_vsn(Cmp, _, []) ->
